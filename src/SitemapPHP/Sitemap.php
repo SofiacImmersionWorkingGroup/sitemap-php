@@ -226,7 +226,7 @@ class Sitemap {
    * 
    * @param bool $outputStream Ignore the default path to write a file and echo out the file.
 	 */
-	private function endSitemap($outputStream) {
+	public function endSitemap($outputStream) {
 		if (!$this->getWriter()) {
 			$this->startSitemap($outputStream);
 		}
