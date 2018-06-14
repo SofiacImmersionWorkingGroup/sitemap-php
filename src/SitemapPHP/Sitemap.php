@@ -155,15 +155,20 @@ class Sitemap {
 
 	/**
 	 * Prepares sitemap XML document
+   * @param bool $outputStream Ignore the default path for writing to a file and echo out the file.
 	 * 
 	 */
-	private function startSitemap() {
+	private function startSitemap($outputStream) {
 		$this->setWriter(new \XMLWriter());
-		if ($this->getCurrentSitemap()) {
-			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
-		} else {
-			$this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
-		}
+    if($outputStream) {
+      $this->getWriter()->openURI("php://output");
+    } else {
+      if ($this->getCurrentSitemap()) {
+        $this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . $this->getCurrentSitemap() . self::EXT);
+      } else {
+        $this->getWriter()->openURI($this->getPath() . $this->getFilename() . self::EXT);
+      }
+    }
 		$this->getWriter()->startDocument('1.0', 'UTF-8');
 		$this->getWriter()->setIndent(true);
 		$this->getWriter()->startElement('urlset');
@@ -177,14 +182,15 @@ class Sitemap {
 	 * @param string|null $priority The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
 	 * @param string|null $changefreq How frequently the page is likely to change. Valid values are always, hourly, daily, weekly, monthly, yearly and never.
 	 * @param string|int|null $lastmod The date of last modification of url. Unix timestamp or any English textual datetime description.
+   * @param bool $outputStream Ignore the default path to write a file and echo out the file.
 	 * @return Sitemap
 	 */
-	public function addItem($loc, $priority = self::DEFAULT_PRIORITY, $changefreq = NULL, $lastmod = NULL) {
+	public function addItem($loc, $priority = self::DEFAULT_PRIORITY, $changefreq = NULL, $lastmod = NULL, $outputStream = false) {
 		if (($this->getCurrentItem() % self::ITEM_PER_SITEMAP) == 0) {
 			if ($this->getWriter() instanceof \XMLWriter) {
-				$this->endSitemap();
+				$this->endSitemap($outputStream);
 			}
-			$this->startSitemap();
+			$this->startSitemap($outputStream);
 			$this->incCurrentSitemap();
 		}
 		$this->incCurrentItem();
@@ -217,11 +223,12 @@ class Sitemap {
 
 	/**
 	 * Finalizes tags of sitemap XML document.
-	 *
+   * 
+   * @param bool $outputStream Ignore the default path to write a file and echo out the file.
 	 */
-	private function endSitemap() {
+	private function endSitemap($outputStream) {
 		if (!$this->getWriter()) {
-			$this->startSitemap();
+			$this->startSitemap($outputStream);
 		}
 		$this->getWriter()->endElement();
 		$this->getWriter()->endDocument();
@@ -232,11 +239,16 @@ class Sitemap {
 	 *
 	 * @param string $loc Accessible URL path of sitemaps
 	 * @param string|int $lastmod The date of last modification of sitemap. Unix timestamp or any English textual datetime description.
+   * @param bool $outputStream Ignore the default path to write a file and echo out the file.
 	 */
-	public function createSitemapIndex($loc, $lastmod = 'Today') {
-		$this->endSitemap();
+	public function createSitemapIndex($loc, $lastmod = 'Today', $outputStream = false) {
+		$this->endSitemap($outputStream);
 		$indexwriter = new \XMLWriter();
-		$indexwriter->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . self::INDEX_SUFFIX . self::EXT);
+    if($outputStream) {
+      $indexwriter->openURI("php://output");
+    } else {
+		  $indexwriter->openURI($this->getPath() . $this->getFilename() . self::SEPERATOR . self::INDEX_SUFFIX . self::EXT);
+    }
 		$indexwriter->startDocument('1.0', 'UTF-8');
 		$indexwriter->setIndent(true);
 		$indexwriter->startElement('sitemapindex');
