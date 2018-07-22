@@ -158,7 +158,7 @@ class Sitemap {
 	 * @param bool $outputStream Ignore the default path for writing to a file and echo out the file.
 	 * 
 	 */
-	private function startSitemap($outputStream) {
+	private function startSitemap($outputStream = false) {
 		$this->setWriter(new \XMLWriter());
 		if($outputStream) {
 			$this->getWriter()->openURI("php://output");
@@ -226,7 +226,7 @@ class Sitemap {
 	 * 
 	 * @param bool $outputStream Ignore the default path to write a file and echo out the file.
 	 */
-	public function endSitemap($outputStream) {
+	public function endSitemap($outputStream = false) {
 		if (!$this->getWriter()) {
 			$this->startSitemap($outputStream);
 		}
