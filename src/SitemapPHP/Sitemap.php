@@ -11,8 +11,9 @@ namespace SitemapPHP;
  * @author     Osman Üngür <osmanungur@gmail.com>
  * @copyright  2009-2015 Osman Üngür
  * @copyright  2012-2015 Evert Pot (http://evertpot.com/)
+ * @copyright  2018 Sofiac
  * @license    http://opensource.org/licenses/MIT MIT License
- * @link       http://github.com/evert/sitemap-php
+ * @link       https://github.com/SofiacImmersionWorkingGroup/sitemap-php
  */
 class Sitemap {
 

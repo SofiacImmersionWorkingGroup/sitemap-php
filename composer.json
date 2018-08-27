@@ -1,9 +1,9 @@
 {
-    "name": "evert/sitemap-php",
+    "name": "sofiac/sitemap-php",
     "type": "library",
     "description": "Lightweight library for generating Google sitemap XML files",
     "keywords": ["Sitemap"],
-    "homepage": "https://github.com/evert/sitemap-php/",
+    "homepage": "https://github.com/SofiacImmersionWorkingGroup/sitemap-php",
     "license": "MIT",
     "authors": [
         {
@@ -13,6 +13,9 @@
         {
             "name": "Evert Pot",
             "email": "evert@rooftopsolutions.nl"
+        },
+        {
+          "name": "Sofiac"
         }
     ],
     "require": {
